@@ -67,6 +67,7 @@ import org.thingsboard.server.common.msg.rule.engine.DeviceAttributesEventNotifi
 import org.thingsboard.server.common.msg.rule.engine.DeviceCredentialsUpdateNotificationMsg;
 import org.thingsboard.server.common.msg.rule.engine.DeviceEdgeUpdateMsg;
 import org.thingsboard.server.common.msg.rule.engine.DeviceNameOrTypeUpdateMsg;
+import org.thingsboard.server.common.msg.rule.engine.DeviceRogueMsg;
 import org.thingsboard.server.common.msg.timeout.DeviceActorServerSideRpcTimeoutMsg;
 import org.thingsboard.server.common.util.KvProtoUtil;
 import org.thingsboard.server.gen.transport.TransportProtos.AttributeUpdateNotificationMsg;
@@ -896,6 +897,10 @@ public class DeviceActorMessageProcessor extends AbstractContextAwareMsgProcesso
     void processEdgeUpdate(DeviceEdgeUpdateMsg msg) {
         log.trace("[{}] Processing edge update {}", deviceId, msg);
         this.edgeId = msg.getEdgeId();
+    }
+
+    void processRogueDevice(DeviceRogueMsg msg) {
+        log.warn("[{}][{}] Rogue device detected.", tenantId, deviceId);
     }
 
     private void sendToTransport(GetAttributeResponseMsg responseMsg, SessionInfoProto sessionInfo) {
